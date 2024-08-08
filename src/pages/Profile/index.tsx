@@ -243,7 +243,6 @@ const EmployeeProfile: React.FC = () => {
                   src={employeeData?.employeeId.avatar}
                   onClick={() => {
                     setIsModalVisible(true);
-                    console.log(account);
                   }}
                   style={{ cursor: "pointer", fontSize: "80px" }}
                 >

@@ -80,32 +80,27 @@ const ProjectDetailPage: React.FC = () => {
   };
 
   const handleOk = () => {
-    form
-      .validateFields()
-      .then((values) => {
-        if (id && selectedEmployee?.accountId._id) {
-          dispatch(
-            updateEmployeeRole({
-              projectId: id,
-              accountId: selectedEmployee.accountId._id,
-              role: values.role,
-            })
-          )
-            .unwrap()
-            .then(() => {
-              message.success(projectTranslations.updateRole);
-              setIsModalVisible(false);
-            })
-            .catch((error) => {
-              message.error(`${projectTranslations.failRole} ${error}`);
-            });
-        } else {
-          message.error(projectTranslations.missRole);
-        }
-      })
-      .catch((info) => {
-        console.log(projectTranslations.validRole, info);
-      });
+    form.validateFields().then((values) => {
+      if (id && selectedEmployee?.accountId._id) {
+        dispatch(
+          updateEmployeeRole({
+            projectId: id,
+            accountId: selectedEmployee.accountId._id,
+            role: values.role,
+          })
+        )
+          .unwrap()
+          .then(() => {
+            message.success(projectTranslations.updateRole);
+            setIsModalVisible(false);
+          })
+          .catch((error) => {
+            message.error(`${projectTranslations.failRole} ${error}`);
+          });
+      } else {
+        message.error(projectTranslations.missRole);
+      }
+    });
   };
 
   const handleCancel = () => {

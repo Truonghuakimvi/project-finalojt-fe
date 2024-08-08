@@ -193,7 +193,6 @@ const Skill: React.FC = () => {
       setEditingKey("");
       message.success(skillTranslations.statusEdit);
     } catch (errInfo) {
-      console.log("Validate Failed:", errInfo);
       message.error(skillTranslations.statusFail);
     }
   };
@@ -368,14 +367,9 @@ const Skill: React.FC = () => {
   };
 
   const handleAddSkill = () => {
-    addForm
-      .validateFields()
-      .then((values) => {
-        handleCreate(values);
-      })
-      .catch((info) => {
-        console.log("Validate Failed:", info);
-      });
+    addForm.validateFields().then((values) => {
+      handleCreate(values);
+    });
   };
 
   const handleTabChange = (key: string) => {

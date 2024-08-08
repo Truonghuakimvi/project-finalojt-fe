@@ -124,11 +124,7 @@ const ProjectPage: React.FC = () => {
         },
         "GzvurAWIw9NcrgBh1"
       );
-      console.log(
-        `Email sent to ${email} for ${action} from project ${projectName}`
-      );
     } catch (error) {
-      console.error("Error sending email:", error);
       message.error(`Failed to send email notification to ${email}`);
     }
   };
@@ -195,8 +191,6 @@ const ProjectPage: React.FC = () => {
       message.success(projectTranslations.statusAdd);
       setIsAddModalVisible(false);
       form.resetFields();
-    } catch (info) {
-      console.log("Validate Failed:", info);
     } finally {
       setIsLoading(false);
     }
@@ -228,8 +222,6 @@ const ProjectPage: React.FC = () => {
       }
       setIsEditModalVisible(false);
       editForm.resetFields();
-    } catch (info) {
-      console.log("Validate Failed:", info);
     } finally {
       setIsLoading(false);
     }

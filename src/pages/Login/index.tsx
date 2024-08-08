@@ -107,7 +107,6 @@ const Login: React.FC = () => {
       setModalVisible(false);
       message.success("Password reset email sent successfully!");
     } catch (error) {
-      console.error("Failed to reset password or send email:", error);
       message.error("Failed to reset password.");
     }
   };

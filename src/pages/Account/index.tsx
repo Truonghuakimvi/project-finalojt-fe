@@ -337,7 +337,6 @@ const Account: React.FC = () => {
 
   const clearSearch = () => {
     setSearchTerm("");
-    console.log(accountData);
   };
 
   return (
@@ -425,7 +424,6 @@ const Account: React.FC = () => {
               showSearch
               placeholder={accountTranslations.holder}
               optionFilterProp="children"
-              onChange={(value) => console.log(`selected ${value}`)}
               filterOption={(input, option) =>
                 (option?.label ?? "")
                   .toLowerCase()
