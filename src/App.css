@@ -1,0 +1,86 @@
+/* src/App.css */
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+nav ul li {
+  display: inline;
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+table {
+  width: 80%;
+  margin: 20px auto;
+  border-collapse: collapse;
+}
+
+table, th, td {
+  border: 1px solid #ddd;
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.btn1 {
+  background-color: #f0f0f0;
+}
+
+.btn1:hover {
+  background-color: #1890ff;
+  color: #fff;
+  cursor: pointer;
+   transition: background-color 0.3 ease, color 0.3s ease;
+}
+
+
+.btn2:hover {
+  color: #1890ff;
+  cursor: pointer;
+  transition: background-color 0.3 ease, color 0.3s ease;
+}
+
+.btn3:hover {
+  color: #ddd;
+  cursor: pointer;
+  transition: color 1s ease;
+}
+
+@media (max-width: 768px) {
+  .box {
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  .button {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .button div {
+    margin-bottom: 10px;
+  }
+}

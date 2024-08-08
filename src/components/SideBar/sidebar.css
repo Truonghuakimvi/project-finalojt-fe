@@ -1,0 +1,118 @@
+:root {
+  --primary-color: #1890ff;
+  --secondary-color: #f0f2f5;
+  --text-color: #333;
+  --header-bg-color: #fff;
+  --sider-bg-color: #001529;
+  --menu-item-hover-bg: rgba(24, 144, 255, 0.2);
+  --menu-item-selected-bg: #1890ff;
+  --avatar-bg-color: #1890ff;
+}
+
+body {
+  font-family: "Arial", sans-serif;
+  color: var(--text-color);
+  margin: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.demo-logo-vertical {
+  height: 64px;
+  margin: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5em;
+  font-weight: bold;
+  padding: 0;
+}
+
+.ant-layout-sider {
+  background: var(--sider-bg-color);
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.ant-layout-sider-trigger {
+  background: var(--sider-bg-color);
+}
+
+.ant-layout-sider-collapsed .ant-menu-item {
+  text-align: center;
+}
+
+.ant-menu-dark .ant-menu-item-selected {
+  background-color: var(--menu-item-selected-bg) !important;
+}
+
+.ant-menu-dark .ant-menu-item:hover {
+  background-color: var(--menu-item-hover-bg);
+}
+
+.ant-layout-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  background: var(--header-bg-color);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  height: 64px;
+}
+
+.ant-btn-text {
+  color: var(--primary-color);
+}
+
+.ant-layout-content {
+  background: var(--secondary-color);
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: auto;
+}
+
+.ant-input {
+  border-radius: 8px;
+}
+
+.ant-avatar {
+  background-color: var(--avatar-bg-color);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+}
+
+.header-actions > * {
+  margin-left: 16px;
+}
+
+.logo-image {
+  width: 60px;
+  height: auto;
+  padding: 0;
+  border-radius: 8px;
+  display: block;
+}
+
+.active-link {
+  color: var(--secondary-color) !important;
+}
+
+.dropdown-item-user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.dropdown-item-user-info strong {
+  font-size: 14px;
+}
+
+.dropdown-item-user-info span {
+  font-size: 14px;
+  color: var(--text-color);
+}
+

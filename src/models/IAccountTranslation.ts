@@ -1,0 +1,36 @@
+export interface AccountTranslations {
+  searchAccount: string;
+  clearAccount: string;
+  addAccount: string;
+  emailAccount: string;
+  actionAccount: string;
+  editAccount: string;
+  deleteAccount: string;
+  passwordAccount: string;
+  savedAccount: string;
+  cancelAccount: string;
+  employeeAccount: string;
+  statusAccount: string;
+  status1: string;
+  status2: string;
+  statusEdit: string;
+  statusDelete: string;
+  statusAdd: string;
+  confirm1: string;
+  confirm2: string;
+  confirm3: string;
+  confirm4: string;
+  confirm5: string;
+  confirm6: string;
+  confirm7: string;
+  confirm8: string;
+  confirm9: string;
+  holder: string;
+  error: string;
+  load: string;
+  empty: string;
+  page: string;
+  noAccount: string;
+  nameAccount: string;
+  validEmail: string;
+}
