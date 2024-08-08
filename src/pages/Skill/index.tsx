@@ -109,12 +109,29 @@ const Skill: React.FC = () => {
     returnObjects: true,
   }) as ISkillTranslation;
 
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [pageSize, setPageSize] = useState<number>(10);
+  const [technologyPagination, setTechnologyPagination] = useState<{
+    currentPage: number;
+    pageSize: number;
+  }>({ currentPage: 1, pageSize: 10 });
+
+  const [programmingLanguagePagination, setProgrammingLanguagePagination] =
+    useState<{
+      currentPage: number;
+      pageSize: number;
+    }>({ currentPage: 1, pageSize: 10 });
 
   const handleTableChange = (pagination: TablePaginationConfig) => {
-    setCurrentPage(pagination.current || 1);
-    setPageSize(pagination.pageSize || 10);
+    if (activeTab === "Technology") {
+      setTechnologyPagination({
+        currentPage: pagination.current || 1,
+        pageSize: pagination.pageSize || 10,
+      });
+    } else {
+      setProgrammingLanguagePagination({
+        currentPage: pagination.current || 1,
+        pageSize: pagination.pageSize || 10,
+      });
+    }
   };
 
   const isManager = () => {
@@ -206,8 +223,23 @@ const Skill: React.FC = () => {
       title: skillTranslations.no,
       dataIndex: "index",
       width: "100px",
-      render: (_: unknown, __: ISkill, index: number) =>
-        (currentPage - 1) * pageSize + index + 1,
+      render: (_: unknown, __: ISkill, index: number) => {
+        if (activeTab === "Technology") {
+          return (
+            (technologyPagination.currentPage - 1) *
+              technologyPagination.pageSize +
+            index +
+            1
+          );
+        } else {
+          return (
+            (programmingLanguagePagination.currentPage - 1) *
+              programmingLanguagePagination.pageSize +
+            index +
+            1
+          );
+        }
+      },
     },
     {
       title: skillTranslations.name,
@@ -292,7 +324,8 @@ const Skill: React.FC = () => {
   const renderViewEntities = (
     entities: ISkill[],
     _category: string,
-    setSearchTerm: (value: string) => void
+    setSearchTerm: (value: string) => void,
+    paginationState: { currentPage: number; pageSize: number }
   ) => (
     <div>
       <Search
@@ -315,9 +348,9 @@ const Skill: React.FC = () => {
           rowKey="_id"
           pagination={{
             locale: { items_per_page: `/ ${skillTranslations.page}` },
-            current: currentPage,
-            pageSize: pageSize,
-            total: skills && skills.length,
+            current: paginationState.currentPage,
+            pageSize: paginationState.pageSize,
+            total: entities.length,
             showSizeChanger: true,
           }}
         />
@@ -374,7 +407,8 @@ const Skill: React.FC = () => {
               children: renderViewEntities(
                 filteredTechnologies,
                 "Technology",
-                setTechnologySearchTerm
+                setTechnologySearchTerm,
+                technologyPagination
               ),
             },
             {
@@ -383,7 +417,8 @@ const Skill: React.FC = () => {
               children: renderViewEntities(
                 filteredProgrammingLanguages,
                 "Programming Language",
-                setProgrammingLanguageSearchTerm
+                setProgrammingLanguageSearchTerm,
+                programmingLanguagePagination
               ),
             },
           ]}

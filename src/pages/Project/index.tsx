@@ -74,6 +74,13 @@ const ProjectPage: React.FC = () => {
   const accounts = useSelector(selectAllAccounts);
   const messages = useSelector(selectProjectMessages);
 
+  const activeSkills = skills.filter((skill) => skill.status === "Active");
+
+  const filteredAccounts = useMemo(
+    () => accounts.filter((account) => account.status !== "Inactive"),
+    [accounts]
+  );
+
   const handleTableChange = (pagination: TablePaginationConfig) => {
     setCurrentPage(pagination.current || 1);
     setPageSize(pagination.pageSize || 10);
@@ -171,7 +178,6 @@ const ProjectPage: React.FC = () => {
   const clearSearch = () => {
     setSearchTerm("");
     setFilteredProjects(projects.filter((project) => !project.isDeleted));
-    console.log(userInfo?.sub, userInfo?.role, userInfo?.id);
   };
 
   const handleAddProject = async () => {
@@ -439,17 +445,21 @@ const ProjectPage: React.FC = () => {
           style={{ marginRight: 8, width: 200 }}
         />
         <Button onClick={clearSearch}>{projectTranslations.clear}</Button>
-        <Button
-          onClick={() => setIsDeletedProjectsModalVisible(true)}
-          style={{ marginRight: 8, marginLeft: "auto" }}
-        >
-          <RollbackOutlined />
-          {projectTranslations.viewDelete}
-        </Button>
-        <Button type="primary" onClick={() => setIsAddModalVisible(true)}>
-          <PlusOutlined />
-          {projectTranslations.addProject}
-        </Button>
+        {userInfo?.role == "Manager" && (
+          <Button
+            onClick={() => setIsDeletedProjectsModalVisible(true)}
+            style={{ marginRight: 8, marginLeft: "auto" }}
+          >
+            <RollbackOutlined />
+            {projectTranslations.viewDelete}
+          </Button>
+        )}
+        {userInfo?.role == "Manager" && (
+          <Button type="primary" onClick={() => setIsAddModalVisible(true)}>
+            <PlusOutlined />
+            {projectTranslations.addProject}
+          </Button>
+        )}
         <Button
           type="default"
           onClick={exportToCSV}
@@ -504,10 +514,10 @@ const ProjectPage: React.FC = () => {
             label={projectTranslations.name}
             rules={[{ required: true, message: projectTranslations.confirm1 }]}
           >
-            <Input />
+            <Input placeholder={projectTranslations.nameP} />
           </Form.Item>
           <Form.Item name="description" label={projectTranslations.description}>
-            <Input.TextArea />
+            <Input.TextArea placeholder={projectTranslations.descriptionP} />
           </Form.Item>
           <Form.Item
             name="technology"
@@ -517,9 +527,22 @@ const ProjectPage: React.FC = () => {
             <Select
               mode="multiple"
               placeholder={projectTranslations.selectTech}
+              optionFilterProp="label"
+              filterOption={(input, option) => {
+                if (typeof option?.label === "string") {
+                  return option.label
+                    .toLowerCase()
+                    .includes(input.toLowerCase());
+                }
+                return false;
+              }}
             >
-              {skills.map((skill) => (
-                <Select.Option key={skill._id} value={skill._id}>
+              {activeSkills.map((skill) => (
+                <Select.Option
+                  key={skill._id}
+                  value={skill._id}
+                  label={skill.name}
+                >
                   {skill.name}
                 </Select.Option>
               ))}
@@ -570,9 +593,22 @@ const ProjectPage: React.FC = () => {
             <Select
               mode="multiple"
               placeholder={projectTranslations.selectTech}
+              optionFilterProp="label"
+              filterOption={(input, option) => {
+                if (typeof option?.label === "string") {
+                  return option.label
+                    .toLowerCase()
+                    .includes(input.toLowerCase());
+                }
+                return false;
+              }}
             >
-              {skills.map((skill) => (
-                <Select.Option key={skill._id} value={skill._id}>
+              {activeSkills.map((skill) => (
+                <Select.Option
+                  key={skill._id}
+                  value={skill._id}
+                  label={skill.name}
+                >
                   {skill.name}
                 </Select.Option>
               ))}
@@ -592,9 +628,26 @@ const ProjectPage: React.FC = () => {
             />
           </Form.Item>
           <Form.Item name="employees" label={projectTranslations.employee}>
-            <Select mode="multiple" placeholder={projectTranslations.comfirm5}>
-              {accounts.map((account) => (
-                <Select.Option key={account._id} value={account._id}>
+            <Select
+              mode="multiple"
+              placeholder={projectTranslations.confirm5}
+              showSearch
+              optionFilterProp="label"
+              filterOption={(input, option) => {
+                if (typeof option?.label === "string") {
+                  return option.label
+                    .toLowerCase()
+                    .includes(input.toLowerCase());
+                }
+                return false;
+              }}
+            >
+              {filteredAccounts.map((account) => (
+                <Select.Option
+                  key={account._id}
+                  value={account._id}
+                  label={account.employeeId.name}
+                >
                   {account.employeeId.name}
                 </Select.Option>
               ))}

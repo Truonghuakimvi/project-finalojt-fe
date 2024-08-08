@@ -43,6 +43,7 @@ import { fetchSkills } from "../../redux/Profile/service";
 import exportCV from "../../components/ExportCV";
 import saveAs from "file-saver";
 import Papa from "papaparse";
+import { ISkill } from "@/models/ISkill";
 
 const { Option } = Select;
 
@@ -70,6 +71,9 @@ const Employee: React.FC = () => {
   const [pageSize, setPageSize] = useState<number>(10);
   const [accountFilter, setAccountFilter] = useState<string>("");
   const skills = useSelector((state: RootState) => selectSkills(state));
+
+  const [activePositions, setActivePositions] = useState<IPosition[]>([]);
+  const [activeSkills, setActiveSkills] = useState<ISkill[]>([]);
 
   const { t } = useTranslation();
   const employeeTranslations = t("employee", {
@@ -107,9 +111,17 @@ const Employee: React.FC = () => {
   }, [dispatch]);
 
   useEffect(() => {
+    const activePositions = positions.filter(
+      (pos) => pos.status !== "Inactive"
+    );
+    setActivePositions(activePositions);
+
+    const activeSkills = skills.filter((skill) => skill.status !== "Inactive");
+
+    setActiveSkills(activeSkills);
     setPositionData(positions);
     setEmployeeData(employees);
-  }, [positions, employees]);
+  }, [positions, employees, skills]);
 
   useEffect(() => {
     const role = isManager();
@@ -563,18 +575,53 @@ const Employee: React.FC = () => {
             label={employeeTranslations.positionEmployee}
             rules={[{ required: true, message: employeeTranslations.confirm5 }]}
           >
-            <Select placeholder={employeeTranslations.selectposition}>
-              {positionData &&
-                positionData.map((pos) => (
-                  <Option key={pos._id} value={pos._id}>
-                    {pos.name}
-                  </Option>
-                ))}
+            <Select
+              showSearch
+              placeholder={employeeTranslations.selectposition}
+              optionFilterProp="label"
+              filterOption={(input, option) => {
+                if (typeof option?.label === "string") {
+                  return option.label
+                    .toLowerCase()
+                    .includes(input.toLowerCase());
+                }
+                return false;
+              }}
+            >
+              {activePositions.map((pos) => (
+                <Option key={pos._id} value={pos._id} label={pos.name}>
+                  {pos.name}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item
+            name="skills"
+            label={employeeTranslations.skill}
+            rules={[{ required: true, message: employeeTranslations.confirm7 }]}
+          >
+            <Select
+              mode="multiple"
+              placeholder={employeeTranslations.selectSkill}
+              optionFilterProp="label"
+              filterOption={(input, option) => {
+                if (typeof option?.label === "string") {
+                  return option.label
+                    .toLowerCase()
+                    .includes(input.toLowerCase());
+                }
+                return false;
+              }}
+            >
+              {activeSkills.map((skill) => (
+                <Option key={skill._id} value={skill._id} label={skill.name}>
+                  {skill.name}
+                </Option>
+              ))}
             </Select>
           </Form.Item>
         </Form>
       </Modal>
-
       {selectedEmployee && (
         <>
           <Modal
@@ -713,22 +760,46 @@ const Employee: React.FC = () => {
                   { required: true, message: employeeTranslations.confirm5 },
                 ]}
               >
-                <Select placeholder={employeeTranslations.selectposition}>
-                  {positionData &&
-                    positionData.map((pos) => (
-                      <Option key={pos._id} value={pos._id}>
-                        {pos.name}
-                      </Option>
-                    ))}
+                <Select
+                  showSearch
+                  placeholder={employeeTranslations.selectposition}
+                  optionFilterProp="label"
+                  filterOption={(input, option) => {
+                    if (typeof option?.label === "string") {
+                      return option.label
+                        .toLowerCase()
+                        .includes(input.toLowerCase());
+                    }
+                    return false;
+                  }}
+                >
+                  {activePositions.map((pos) => (
+                    <Option key={pos._id} value={pos._id} label={pos.name}>
+                      {pos.name}
+                    </Option>
+                  ))}
                 </Select>
               </Form.Item>
               <Form.Item name="skills" label={employeeTranslations.skill}>
                 <Select
                   mode="multiple"
                   placeholder={employeeTranslations.selectSkill}
+                  optionFilterProp="label"
+                  filterOption={(input, option) => {
+                    if (typeof option?.label === "string") {
+                      return option.label
+                        .toLowerCase()
+                        .includes(input.toLowerCase());
+                    }
+                    return false;
+                  }}
                 >
-                  {skills?.map((skill) => (
-                    <Option key={skill._id} value={skill._id}>
+                  {activeSkills.map((skill) => (
+                    <Option
+                      key={skill._id}
+                      value={skill._id}
+                      label={skill.name}
+                    >
                       {skill.name}
                     </Option>
                   ))}

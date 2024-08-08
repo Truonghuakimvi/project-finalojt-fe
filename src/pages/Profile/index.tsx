@@ -80,6 +80,8 @@ const EmployeeProfile: React.FC = () => {
   );
   const skills = useSelector((state: RootState) => selectSkills(state));
 
+  const activeSkills = skills.filter((skill) => skill.status === "Active");
+
   const validatePhoneNumber = (_: unknown, value: string) => {
     if (!value) {
       return Promise.reject(new Error(employeeTranslations.confirm2));
@@ -529,9 +531,18 @@ const EmployeeProfile: React.FC = () => {
               <Select
                 mode="multiple"
                 placeholder={employeeTranslations.selectSkill}
+                optionFilterProp="label"
+                filterOption={(input, option) => {
+                  if (typeof option?.label === "string") {
+                    return option.label
+                      .toLowerCase()
+                      .includes(input.toLowerCase());
+                  }
+                  return false;
+                }}
               >
-                {skills?.map((skill) => (
-                  <Option key={skill._id} value={skill._id}>
+                {activeSkills?.map((skill) => (
+                  <Option key={skill._id} value={skill._id} label={skill.name}>
                     {skill.name}
                   </Option>
                 ))}

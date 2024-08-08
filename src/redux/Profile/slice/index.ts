@@ -7,14 +7,14 @@ import { IEmployee } from "@/models/IEmployee";
 
 interface AccountState {
   account: IAccount | null;
-  skills: ISkill[] | null;
+  skills: ISkill[];
   status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
 }
 
 const initialState: AccountState = {
   account: null,
-  skills: null,
+  skills: [],
   status: "idle",
   error: null,
 };

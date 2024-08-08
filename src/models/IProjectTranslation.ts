@@ -33,7 +33,7 @@ export interface ProjectTranslation {
   history: string;
   ok: string;
   complete: string;
-  comfirm5: string;
+  confirm5: string;
   employee: string;
   restore: string;
   export: string;
@@ -52,4 +52,6 @@ export interface ProjectTranslation {
   missRole: string;
   validRole: string;
   errorLoad: string;
+  descriptionP: string;
+  nameP: string;
 }
