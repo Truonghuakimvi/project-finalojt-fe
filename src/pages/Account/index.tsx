@@ -244,10 +244,6 @@ const Account: React.FC = () => {
       title: accountTranslations.statusAccount,
       dataIndex: "status",
       editable: true,
-      filters: [
-        { text: accountTranslations.status1, value: "Active" },
-        { text: accountTranslations.status2, value: "Inactive" },
-      ],
       render: (status: string) => (
         <Badge
           status={status === "Active" ? "success" : "error"}
