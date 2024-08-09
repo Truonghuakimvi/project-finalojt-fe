@@ -317,6 +317,7 @@ const ProjectPage: React.FC = () => {
     {
       title: projectTranslations.name,
       dataIndex: "name",
+      width: "200px",
       key: "name",
       render: (text: string, record: IProject) => (
         <Link style={{ color: "#1677ff" }} to={`${PATH.PROJECT}/${record._id}`}>
@@ -332,6 +333,7 @@ const ProjectPage: React.FC = () => {
     {
       title: projectTranslations.status,
       dataIndex: "status",
+      width: "180px",
       key: "status",
       render: (status: string) => (
         <Badge
@@ -353,6 +355,7 @@ const ProjectPage: React.FC = () => {
       ? [
           {
             title: projectTranslations.action,
+            width: "300px",
             key: "action",
             render: (_: undefined, record: IProject) => (
               <>
