@@ -29,10 +29,16 @@ export const addEmployee = createAsyncThunk(
       return response.data;
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
+        // Log the full error for debugging
         console.error("Error adding employee:", error.response?.data);
+
+        // Extract and return the error message from the backend
         const errorMessage =
           error.response?.data?.message || "Failed to add employee";
         return rejectWithValue(errorMessage);
+      } else {
+        console.error("Unexpected error:", error);
+        return rejectWithValue("An unexpected error occurred");
       }
     }
   }

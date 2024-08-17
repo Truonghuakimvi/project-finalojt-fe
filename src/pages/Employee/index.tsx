@@ -182,15 +182,14 @@ const Employee: React.FC = () => {
     {
       title: employeeTranslations.positionEmployee,
       dataIndex: "position",
-      render: (position: IPosition) =>
-        position.name == "No Position"
-          ? employeeTranslations.noPosition
-          : position.name,
+      render: (position: IPosition | null) =>
+        position && position.name ? position.name : "Null",
       filters: positionData.map((pos) => ({
         text: pos.name,
         value: pos.name,
       })),
-      onFilter: (value, record) => record.position.name === value,
+      onFilter: (value, record) =>
+        record.position && record.position.name === value,
     },
     {
       title: employeeTranslations.actionEmployee,
@@ -275,21 +274,32 @@ const Employee: React.FC = () => {
           ...values,
           phoneNumber: formattedPhoneNumber,
           dateOfBirth: dayjs(values.dateOfBirth).format("YYYY-MM-DD"),
+          skills: values.skills.map((skillId: string) => ({
+            skillId,
+            yearsOfExperience: 0,
+          })),
         };
 
         setIsLoading(true);
         setIsModalVisible(false);
-        await dispatch(addEmployee(addData));
+        await dispatch(addEmployee(addData)).unwrap(); // Unwrap to catch errors
         await dispatch(fetchEmployees());
         setIsLoading(false);
         addForm.resetFields();
         message.success(employeeTranslations.statusAdd);
       } catch (error) {
-        if (error instanceof Error)
-          message.error(employeeTranslations.confirm13);
+        console.error("Error during add employee process:", error);
+
+        if (error instanceof Error) {
+          message.error(error.message); // Show the error message returned by the backend
+        } else {
+          message.error("An unexpected error occurred");
+        }
         setIsLoading(false);
       }
-    } else message.error(employeeTranslations.confirm14);
+    } else {
+      message.error(employeeTranslations.confirm14);
+    }
   };
 
   const handleDelete = async (record: IEmployee) => {
@@ -595,11 +605,7 @@ const Employee: React.FC = () => {
               ))}
             </Select>
           </Form.Item>
-          <Form.Item
-            name="skills"
-            label={employeeTranslations.skill}
-            rules={[{ required: true, message: employeeTranslations.confirm7 }]}
-          >
+          <Form.Item name="skills" label={employeeTranslations.skill}>
             <Select
               mode="multiple"
               placeholder={employeeTranslations.selectSkill}
